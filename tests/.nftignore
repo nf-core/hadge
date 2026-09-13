@@ -15,6 +15,7 @@ hashing/htodemux/*/*_htodemux.rds
 hashing/multiseqdemux/*/*_multiseqdemux.rds
 hashing/htodemux/*/visualization/*_tSNE_htodemux.jpeg
 hashing/preprocessing/*/*_preprocessed.rds
+hashing/hashsolo/*/*_hashsolo.h5ad
 genetic/popscle/freemuxlet/*/*.clust1.vcf.gz
 genetic/souporcell/*/*/ambient_rna.txt
 genetic/souporcell/*/*/cluster_genotypes.vcf
