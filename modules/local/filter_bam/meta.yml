@@ -1,0 +1,93 @@
+name: filter_bam
+description: Filter a BAM file to the reads of the given barcodes overlapping the given variants,
+  as preparation for popscle pileup.
+keywords:
+  - demultiplexing
+  - genetic deconvolution
+  - bam
+  - filter
+tools:
+  - bcftools:
+      description: Utilities for variant calling and manipulating VCFs and BCFs.
+      homepage: https://samtools.github.io/bcftools/
+      documentation: https://samtools.github.io/bcftools/bcftools.html
+      tool_dev_url: https://github.com/samtools/bcftools
+      doi: 10.1093/gigascience/giab008
+      licence:
+        - MIT
+        - GPL
+      identifier: ""
+  - bedtools:
+      description: Toolset for genome arithmetic on genomic intervals.
+      homepage: https://bedtools.readthedocs.io
+      documentation: https://bedtools.readthedocs.io/en/latest/
+      tool_dev_url: https://github.com/arq5x/bedtools2
+      doi: 10.1093/bioinformatics/btq033
+      licence:
+        - GPL-2.0-only
+      identifier: ""
+  - samtools:
+      description: Tools for dealing with SAM, BAM and CRAM files.
+      homepage: http://www.htslib.org/
+      documentation: http://www.htslib.org/doc/samtools.html
+      tool_dev_url: https://github.com/samtools/samtools
+      doi: 10.1093/bioinformatics/btp352
+      licence:
+        - MIT
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - bam:
+        type: file
+        description: Aligned reads of the single-cell experiment.
+        ontologies:
+          - edam: http://edamontology.org/format_2572
+    - barcodes:
+        type: file
+        description: File with the cell barcodes to keep, one barcode per line.
+        ontologies:
+          - edam: http://edamontology.org/format_2330
+  - vcf:
+      type: file
+      description: VCF file with the variants to restrict the reads to. It is sorted before
+        filtering.
+      ontologies:
+        - edam: http://edamontology.org/format_3016
+output:
+  bam:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - ${prefix}.bam:
+          type: file
+          description: Filtered BAM file. Its name must differ from the name of the input
+            BAM file (set `task.ext.prefix` to disambiguate).
+          pattern: "*.bam"
+          ontologies:
+            - edam: http://edamontology.org/format_2572
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+topics:
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+authors:
+  - "@LuisHeinzlmeier"
+maintainers:
+  - "@LuisHeinzlmeier"

@@ -1,0 +1,74 @@
+name: extract_hashes
+description: Extract the names of the hashtags from the features file of a 10X-format HTO
+  matrix.
+keywords:
+  - demultiplexing
+  - hashing-based deconvolution
+  - hashtag
+  - single-cell
+tools:
+  - coreutils:
+      description: GNU core utilities for file, shell and text manipulation.
+      homepage: https://www.gnu.org/software/coreutils/
+      documentation: https://www.gnu.org/software/coreutils/manual/
+      licence:
+        - GPL-3.0-or-later
+      identifier: ""
+  - gawk:
+      description: GNU implementation of the AWK text processing language.
+      homepage: https://www.gnu.org/software/gawk/
+      documentation: https://www.gnu.org/software/gawk/manual/
+      licence:
+        - GPL-3.0-or-later
+      identifier: ""
+  - gzip:
+      description: GNU file compression and decompression utility.
+      homepage: https://www.gnu.org/software/gzip/
+      documentation: https://www.gnu.org/software/gzip/manual/
+      licence:
+        - GPL-3.0-or-later
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - hto_dir:
+        type: directory
+        description: Directory containing the HTO count matrix in 10X format, including `features.tsv.gz`.
+        ontologies:
+          - edam: http://edamontology.org/data_3917
+output:
+  hashes:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_hashes.txt":
+          type: file
+          description: Text file with the comma-separated names of the hashtags.
+          pattern: "*_hashes.txt"
+          ontologies:
+            - edam: http://edamontology.org/format_2330
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+topics:
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+authors:
+  - "@LuisHeinzlmeier"
+maintainers:
+  - "@LuisHeinzlmeier"
