@@ -3,7 +3,7 @@ process DEMUXEM {
     label 'process_low'
 
     conda "${moduleDir}/environment.yml"
-    container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
+    container "${workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container
         ? 'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/0d/0d3f96aaa8437bfa1654570e1d2b84749f1ac14d68f97978acc19b3757af7f55/data'
         : 'community.wave.seqera.io/library/demuxem:0.1.7.post1--5ac55376ad7cb80e'}"
 

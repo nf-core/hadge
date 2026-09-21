@@ -15,7 +15,7 @@ Changes in 'demuxem/main.nf':
 -    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
 -        'https://depot.galaxyproject.org/singularity/demuxem:0.1.7.post1--pyhdfd78af_0' :
 -        'quay.io/biocontainers/demuxem:0.1.7.post1--pyhdfd78af_0' }"
-+    container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
++    container "${workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container
 +        ? 'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/0d/0d3f96aaa8437bfa1654570e1d2b84749f1ac14d68f97978acc19b3757af7f55/data'
 +        : 'community.wave.seqera.io/library/demuxem:0.1.7.post1--5ac55376ad7cb80e'}"
 +

@@ -4,12 +4,9 @@ Changes in component 'nf-core/popscle/demuxlet'
 Changes in 'popscle/demuxlet/main.nf':
 --- modules/nf-core/popscle/demuxlet/main.nf
 +++ modules/nf-core/popscle/demuxlet/main.nf
-@@ -3,12 +3,12 @@
-     label 'process_medium'
- 
+@@ -5,10 +5,10 @@
      conda "${moduleDir}/environment.yml"
--    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
-+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+     container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
          'https://depot.galaxyproject.org/singularity/popscle:0.1beta--h2c78cec_0' :
 -        'quay.io/biocontainers/popscle:0.1beta--h2c78cec_0' }"
 +        'biocontainers/popscle:0.1beta--h2c78cec_0' }"
