@@ -3,7 +3,7 @@ process PREPROCESSING_FOR_HTODEMUX_MULTISEQ {
     label 'process_low'
 
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
         'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/6b/6b43d3afc47ad5e5d99bc97980d409e377f6b0595cb588b121076e67dca71d39/data':
         'community.wave.seqera.io/library/r-seurat_r-seuratobject:c1b3e7a7276bda09' }"
 

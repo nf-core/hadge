@@ -3,7 +3,7 @@ process FILTER_BAM {
     label 'process_low'
 
     conda "${moduleDir}/environment.yml"
-    container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
+    container "${workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container
         ? 'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/f4/f46d4b6a720d442979b57330a319a25863231b2c70c80348f7b1d1d7d422b1f6/data'
         : 'community.wave.seqera.io/library/bcftools_bedtools_samtools:f1acc4ec7fbdba9e'}"
 

@@ -3,7 +3,7 @@ process HTODEMUX_VISUALIZATION {
     label 'process_low'
 
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
         'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/8e/8e9a749bb2e2bfac7f1a80d9565eb75fd1ca5bc036eb87a04964fb58f4ac0138/data':
         'community.wave.seqera.io/library/r-ggplot2_r-seurat_r-seuratobject:e12b56f2caede4ba' }"
 

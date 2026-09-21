@@ -3,7 +3,7 @@ process GENE_SUMMARY {
     label 'process_low'
 
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
         'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/6d/6d63210b90bdadc321e15610f40c337ab08fa724719b7d4be0785944a86755fb/data':
         'community.wave.seqera.io/library/numpy_pandas_pyyaml_scanpy:d959777f7735763f' }"
 

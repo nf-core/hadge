@@ -3,7 +3,7 @@ process FIND_VARIANTS {
     label 'process_low'
 
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
         'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/75/755e81f7b523df9db3a6f574fdb876ddfc1e1faf1e912260b99bca773f6dba2d/data':
         'community.wave.seqera.io/library/r-complexupset_r-data.table_r-tidyverse_r-vcfr:87602a1274fab432' }"
 

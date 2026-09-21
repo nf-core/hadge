@@ -3,7 +3,7 @@ process CREATE_ANNDATA_MUDATA {
     label 'process_low'
 
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
         'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/31/31c261a4a1ed9c3b409457fe778a363fb941152f7307bfa76cb4c42d44235ddf/data':
         'community.wave.seqera.io/library/anndata_mudata_pandas_pyyaml_scanpy:e96a91e210372525' }"
 

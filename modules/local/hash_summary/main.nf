@@ -3,7 +3,7 @@ process HASH_SUMMARY {
     label 'process_low'
 
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
         'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/cb/cb8601e2171467026ea36c22328a15eb25025bbe686ff1a0ea04ab407c735aee/data':
         'community.wave.seqera.io/library/pegasusio_numpy_pandas_pyyaml_scanpy:e16c3756496aa20c' }"
 

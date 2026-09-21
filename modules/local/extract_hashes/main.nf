@@ -3,7 +3,7 @@ process EXTRACT_HASHES {
     label 'process_low'
 
     conda "${moduleDir}/environment.yml"
-    container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
+    container "${workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container
         ? 'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/74/749b3cf99e0a33f46d2b49ab60d6e408ce467476c0ec86da1775e73ac4b5ba7b/data'
         : 'community.wave.seqera.io/library/coreutils_gawk_gzip:3d2dde6df78e314a'}"
 
