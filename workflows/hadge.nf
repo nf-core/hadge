@@ -190,7 +190,7 @@ workflow HADGE {
         }
     }
 
-    if (params.mode == 'genetic' | params.mode == 'hashing' | params.mode == 'rescue'){
+    if (params.mode == 'genetic' || params.mode == 'hashing' || params.mode == 'rescue'){
         CREATE_ANNDATA_MUDATA(
             ch_create_anndata_mudata.map { tuple ->
                 // hto can be null in genetic mode
@@ -208,7 +208,7 @@ workflow HADGE {
         )
 
         // there only is a best_intersect_assignment_after_match output in donor_match and rescue mode to run FIND_VARIANTS
-        if ( (params.mode == 'donor_match' | params.mode == 'rescue') && params.find_variants ){
+        if ( (params.mode == 'donor_match' || params.mode == 'rescue') && params.find_variants ){
 
             ch_find_variants = DONOR_MATCH.out.best_intersect_assignment_after_match
                 .join(ch_find_variants)
