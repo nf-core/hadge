@@ -15,6 +15,9 @@ process FILTER_BAM {
     tuple val(meta), path("${prefix}.bam"), emit: bam
     path 'versions.yml'                   , emit: versions, topic: versions
 
+    when:
+    task.ext.when == null || task.ext.when
+
     script:
     prefix = task.ext.prefix ?: "${meta.id}"
     if ("${bam}" == "${prefix}.bam") {
@@ -23,6 +26,19 @@ process FILTER_BAM {
     """
     bcftools sort ${vcf} -Oz -o sorted.vcf.gz
     filter_bam_file_for_popscle_dsc_pileup.sh ${bam} ${barcodes} sorted.vcf.gz ${prefix}.bam
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        bcftools: \$(bcftools --version 2>&1 | head -n1 | sed 's/^.*bcftools //; s/ .*\$//')
+        bedtools: \$(bedtools --version | sed -e "s/bedtools v//g")
+        samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//')
+    END_VERSIONS
+    """
+
+    stub:
+    prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    touch ${prefix}.bam
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
