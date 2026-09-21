@@ -323,6 +323,17 @@ Whilst the default requirements set within the pipeline will hopefully work for 
 
 To change the resource requests, please see the [max resources](https://nf-co.re/docs/running/configuration/nextflow-for-your-system#set-max-resources) and [customise process resources](https://nf-co.re/docs/running/configuration/nextflow-for-your-system#customize-process-resources) section of the nf-core website.
 
+#### SOUPORCELL and VIREO
+
+`SOUPORCELL` and `VIREO` have dedicated resource requests in [`conf/modules.config`](../conf/modules.config) because they need far more than the generic `process_medium` label on real-life data. The defaults are based on a `test_full` run on AWS (dataset: see [issue #106](https://github.com/nf-core/hadge/issues/106)):
+
+| Process      | Requested (CPUs, memory, time) | Duration  | CPU usage | Peak RSS | Peak VMEM |
+| ------------ | ------------------------------ | --------- | --------- | -------- | --------- |
+| `SOUPORCELL` | 60, 64 GB, 24 h                | 11 h 3 m  | 467%      | 50.6 GB  | 70.6 GB   |
+| `VIREO`      | 4, 320 GB, 4 h                 | 14 m 38 s | 197%      | 255.5 GB | 299.4 GB  |
+
+If they do not fit your system or data, cap them with [max resources](https://nf-co.re/docs/running/configuration/nextflow-for-your-system#set-max-resources) or override them with `-c`, e.g. `withName: SOUPORCELL { cpus = 16; time = { 48.h * task.attempt } }`. Note that SOUPORCELL gets slower with fewer CPUs, so increase `time` when lowering `cpus`.
+
 ### Custom Containers
 
 In some cases, you may wish to change the container or conda environment used by a pipeline steps for a particular tool. By default, nf-core pipelines use containers and software from the [biocontainers](https://biocontainers.pro/) or [bioconda](https://bioconda.github.io/) projects. However, in some cases the pipeline specified version maybe out of date.
