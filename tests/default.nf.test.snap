@@ -751,8 +751,19 @@
                 "multiqc/multiqc_data/multiqc.parquet",
                 "multiqc/multiqc_data/multiqc_citations.txt",
                 "multiqc/multiqc_data/multiqc_data.json",
+                "multiqc/multiqc_data/multiqc_hadge_classification_plot.txt",
                 "multiqc/multiqc_data/multiqc_software_versions.txt",
                 "multiqc/multiqc_data/multiqc_sources.txt",
+                "multiqc/multiqc_plots",
+                "multiqc/multiqc_plots/pdf",
+                "multiqc/multiqc_plots/pdf/hadge_classification_plot-cnt.pdf",
+                "multiqc/multiqc_plots/pdf/hadge_classification_plot-pct.pdf",
+                "multiqc/multiqc_plots/png",
+                "multiqc/multiqc_plots/png/hadge_classification_plot-cnt.png",
+                "multiqc/multiqc_plots/png/hadge_classification_plot-pct.png",
+                "multiqc/multiqc_plots/svg",
+                "multiqc/multiqc_plots/svg/hadge_classification_plot-cnt.svg",
+                "multiqc/multiqc_plots/svg/hadge_classification_plot-pct.svg",
                 "multiqc/multiqc_report.html",
                 "pipeline_info",
                 "pipeline_info/nf_core_hadge_software_mqc_versions.yml",
@@ -1141,6 +1152,7 @@
                 "test3_hashing_summary_assignment.csv:md5,31a5bd36901a64e5908a38714b19f622",
                 "test3_hashing_summary_classification.csv:md5,c929da1c41e0adc0f3e120f27db00fb6",
                 "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f",
+                "multiqc_hadge_classification_plot.txt:md5,ff546217b09443cf656c358a6a9a6760",
                 "test1_assignment.csv:md5,3b7d6b6765ae4722b97375fa933b93c5",
                 "test1_classification.csv:md5,07c15ecad1ff8ea08163a0fabc84d3a9",
                 "test1_genetic.h5ad:md5,00ed3288cba12a0a4771913a14d5733e",
@@ -1178,10 +1190,10 @@
                 "test3_GT_donors.vireo.vcf.gz:md5,921ce18ca982b86589477432fce4e3e6"
             ]
         ],
-        "timestamp": "2026-09-05T21:24:42.704033458",
+        "timestamp": "2026-09-27T22:25:43.69782722",
         "meta": {
-            "nf-test": "0.9.5",
-            "nextflow": "26.04.6"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
         }
     }
 }
