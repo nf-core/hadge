@@ -105,11 +105,11 @@ nextflow run nf-core/hadge \
    -profile <docker/singularity/.../institute> \
    --input samplesheet.csv \
    --outdir <OUTDIR> \
-   --mode donor_match
-   --demultiplexing_result <DIR> \
-   --vireo_filtered_variants <DIR> \
-   --cell_genotype <DIR> \
-   --gt_donors <DIR> \
+   --mode donor_match \
+   --demultiplexing_result <CSV> \
+   --vireo_filtered_variants <TSV> \
+   --cell_genotype <VCF> \
+   --gt_donors <VCF>
 ```
 
 ## Samplesheet input

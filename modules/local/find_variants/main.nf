@@ -34,10 +34,10 @@ process FIND_VARIANTS {
     """
     mkdir -p hto1
 
-    touch ${prefix}_all_representative_variant.csv
+    touch ${prefix}_all_representative_variants.csv
     touch ${prefix}_donor_specific_variants_upset.png
-    touch ${prefix}_donor_specific_representative_variants.csv
-    touch ${prefix}_vireo_representative_variants.csv
+    touch ${prefix}_donor_specific_variants.csv
+    touch ${prefix}_vireo_variants.csv
     touch hto1/${prefix}_hto1_matched_gt.csv
     touch hto1/${prefix}_hto1_unmatched_gt.csv
     touch hto1/${prefix}_hto1_informative_variants.csv

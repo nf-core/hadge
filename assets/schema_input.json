@@ -17,13 +17,17 @@
                 "type": "string",
                 "default": null,
                 "pattern": "^\\S+$",
-                "errorMessage": "RNA matrix must be provided and cannot contain spaces"
+                "format": "path",
+                "exists": true,
+                "errorMessage": "HTO matrix must be provided and cannot contain spaces"
             },
             "hto_matrix": {
                 "type": "string",
                 "default": null,
                 "pattern": "^\\S+$",
-                "errorMessage": "HTO matrix must be provided and cannot contain spaces"
+                "format": "path",
+                "exists": true,
+                "errorMessage": "RNA matrix must be provided and cannot contain spaces"
             },
             "bam": {
                 "type": "string",

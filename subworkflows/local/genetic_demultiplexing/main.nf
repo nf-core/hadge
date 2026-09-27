@@ -52,7 +52,7 @@ workflow GENETIC_DEMULTIPLEXING {
                     barcodes,
                 ]
             },
-            common_variants,
+            file(common_variants, checkIfExists: true),
         )
         ch_samplesheet = ch_samplesheet
             .join(FILTER_BAM.out.bam)
