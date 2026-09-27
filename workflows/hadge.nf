@@ -186,7 +186,7 @@ workflow HADGE {
 
         if ( params.find_variants ){
             ch_find_variants = ch_preprocessed.map{ meta, _rna, _hto, _bam, _barcodes, _vcf ->
-                [meta, params.cell_genotype, params.vireo_filtered_variants ?: []]
+                [meta, file(params.cell_genotype, checkIfExists: true), params.vireo_filtered_variants ? file(params.vireo_filtered_variants, checkIfExists: true) : []]
             }
         }
     }
@@ -239,7 +239,7 @@ workflow HADGE {
                         .combine(GENETIC_DEMULTIPLEXING.out.gt_donors, by: 0)
                     : ch_subset_gt_donors
                         .map { meta, variants, type ->
-                            [ meta, variants, type, params.gt_donors ]
+                            [ meta, variants, type, file(params.gt_donors, checkIfExists: true) ]
                         }
 
                 ch_subset_gt_donors = ch_subset_gt_donors
