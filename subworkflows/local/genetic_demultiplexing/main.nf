@@ -61,7 +61,7 @@ workflow GENETIC_DEMULTIPLEXING {
 
 
 
-    if ( params.find_variants || methods.contains('vireo')){
+    if ( methods.contains('vireo') || (params.mode == 'rescue' && params.match_donor && params.find_variants) ) {
         SAMTOOLS_INDEX(ch_samplesheet.map { meta, bam, _barcodes, _vcf -> [meta, bam] })
 
         CELLSNP_MODEA(
