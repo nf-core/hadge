@@ -163,5 +163,6 @@ workflow HASH_DEMULTIPLEXING {
     emit:
     summary_assignment = HASH_SUMMARY.out.assignment
     summary_classification = HASH_SUMMARY.out.classification
+    overview_classification = HASH_SUMMARY.out.overview_classification
     versions = ch_versions // channel: [ versions.yml ]
 }

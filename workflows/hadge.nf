@@ -42,19 +42,20 @@ workflow HADGE {
     ch_find_variants = channel.empty()
     ch_subset_gt_donors = channel.empty()
     ch_multiqc_files = channel.empty()
+    ch_overview_classification = channel.empty()
 
     // ------------------------------ preprocessing start -------------------------------
     // untar matrices
     ch_rna = ch_samplesheet.map { meta, rna, _hto, _bam, _barcodes, _vcf -> [meta, rna] }
                     .branch { _meta, rna ->
-                        tar: rna != null && rna.endsWith('.tar.gz')
+                        tar: rna != null && rna.name.endsWith('.tar.gz')
                         directory: true
                     }
 
 
     ch_hto = ch_samplesheet.map { meta, _rna, hto, _bam, _barcodes, _vcf -> [meta, hto] }
                     .branch { _meta, hto ->
-                        tar: hto != null && hto.endsWith('.tar.gz')
+                        tar: hto != null && hto.name.endsWith('.tar.gz')
                         directory: true
                     }
 
@@ -111,6 +112,8 @@ workflow HADGE {
 
         ch_donor_match = GENETIC_DEMULTIPLEXING.out.summary_assignment
 
+        ch_overview_classification = GENETIC_DEMULTIPLEXING.out.overview_classification
+
         ch_versions = ch_versions.mix(GENETIC_DEMULTIPLEXING.out.versions)
     }
 
@@ -127,6 +130,8 @@ workflow HADGE {
             .join(HASH_DEMULTIPLEXING.out.summary_classification)
 
         ch_donor_match = HASH_DEMULTIPLEXING.out.summary_assignment
+
+        ch_overview_classification = HASH_DEMULTIPLEXING.out.overview_classification
 
         ch_versions = ch_versions.mix(HASH_DEMULTIPLEXING.out.versions)
     }
@@ -170,6 +175,9 @@ workflow HADGE {
             .join(HASH_DEMULTIPLEXING.out.summary_classification)
 
         ch_donor_match = JOIN_RESULTS_ASSIGNMENT.out.csv
+
+        ch_overview_classification = GENETIC_DEMULTIPLEXING.out.overview_classification
+            .mix(HASH_DEMULTIPLEXING.out.overview_classification)
 
         if ( params.find_variants ){
             ch_find_variants = GENETIC_DEMULTIPLEXING.out.gt_cells
@@ -280,9 +288,43 @@ workflow HADGE {
         )
 
     //
+    // Collate singlet/doublet/negative counts per sample and method for MultiQC
+    //
+    def ch_classification_mqc = ch_overview_classification
+        .splitCsv(header: true, elem: 1)
+        .map { meta, row ->
+            "${meta.id}_${row.method}\t${row.singlet ?: 0}\t${row.doublet ?: 0}\t${row.negative ?: 0}"
+        }
+        .collectFile(
+            name: 'classification_mqc.tsv',
+            seed: [
+                "# id: 'hadge_classification'",
+                "# section_name: 'Cell classification'",
+                "# description: 'Number of barcodes classified as singlet, doublet or negative by each deconvolution method.'",
+                "# plot_type: 'bargraph'",
+                "# pconfig:",
+                "#     id: 'hadge_classification_plot'",
+                "#     title: 'nf-core/hadge: Cell classification per method'",
+                "#     ylab: 'Number of barcodes'",
+                "#     cpswitch_counts_label: 'Number of barcodes'",
+                "# categories:",
+                "#     singlet:",
+                "#         name: 'Singlet'",
+                "#     doublet:",
+                "#         name: 'Doublet'",
+                "#     negative:",
+                "#         name: 'Negative'",
+                "Sample\tsinglet\tdoublet\tnegative",
+            ].join('\n'),
+            newLine: true,
+            sort: true
+        )
+
+    //
     // MODULE: MultiQC
     //
     ch_multiqc_files = ch_multiqc_files.mix(ch_collated_versions)
+    ch_multiqc_files = ch_multiqc_files.mix(ch_classification_mqc)
     def ch_summary_params = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
     def ch_workflow_summary = channel.value(paramsSummaryMultiqc(ch_summary_params))
     ch_multiqc_files = ch_multiqc_files.mix(ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'))

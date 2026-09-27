@@ -135,6 +135,7 @@ workflow GENETIC_DEMULTIPLEXING {
     emit:
     summary_assignment = GENE_SUMMARY.out.assignment
     summary_classification = GENE_SUMMARY.out.classification
+    overview_classification = GENE_SUMMARY.out.overview_classification
     vireo_filtered_variants = ch_vireo_filtered_variants
     gt_cells = ch_gt_cells
     gt_donors = ch_gt_donors
