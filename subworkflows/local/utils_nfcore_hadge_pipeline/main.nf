@@ -106,7 +106,13 @@ workflow PIPELINE_INITIALISATION {
     // Create channel from input file provided through params.input
     //
 
-    channel.fromList(samplesheetToList(input, "${projectDir}/assets/schema_input.json"))
+    def samplesheet_list = samplesheetToList(input, "${projectDir}/assets/schema_input.json")
+
+    if (params.mode == 'donor_match' && samplesheet_list.size() > 1) {
+        error "Mode 'donor_match' supports only one samplesheet row, but ${samplesheet_list.size()} were provided."
+    }
+
+    channel.fromList(samplesheet_list)
         .map { samplesheet ->
             validateInputSamplesheet(samplesheet)
         }

@@ -182,7 +182,7 @@ workflow HADGE {
     }
     else if ( params.mode == 'donor_match' ){
 
-        ch_donor_match = ch_preprocessed.map{ meta, _rna, _hto, _bam, _barcodes, _vcf -> [meta, params.demultiplexing_result] }
+        ch_donor_match = ch_preprocessed.map{ meta, _rna, _hto, _bam, _barcodes, _vcf -> [meta, file(params.demultiplexing_result, checkIfExists: true)] }
 
         if ( params.find_variants ){
             ch_find_variants = ch_preprocessed.map{ meta, _rna, _hto, _bam, _barcodes, _vcf ->
