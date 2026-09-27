@@ -137,15 +137,15 @@ id2,rna.tar.gz,hto.tar.gz,chr21.bam,donor_genotype_chr21.vcf,2,barcodes.tsv
 id3,rna.tar.gz,hto.tar.gz,chr21.bam,donor_genotype_chr21.vcf,2,barcodes.tsv
 ```
 
-| Column       | Description                                                                                                                                                                            |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sample`     | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`). |
-| `rna_matrix` | Full path to the RNA-Seq count matrices provided in a 10x Genomics format and compressed as `.tar.gz`.                                                                                 |
-| `hto_matrix` | Full path to the hashing count matrices provided in a 10x Genomics format and compressed as `.tar.gz`.                                                                                 |
-| `bam`        | Full path to the alignment file (`.bam`).                                                                                                                                              |
-| `vcf`        | Full path to common SNP genotypes vcf (`.vcf`).                                                                                                                                        |
-| `n_samples`  | The number of multiplexed donors.                                                                                                                                                      |
-| `barcodes`   | Full path to the list of cell barcodes (e.g., `barcodes.tsv` from Cell Ranger)                                                                                                         |
+| Column       | Description                                                                                            |
+| ------------ | ------------------------------------------------------------------------------------------------------ |
+| `sample`     | Custom sample name. Must be unique within the samplesheet and cannot contain spaces.                   |
+| `rna_matrix` | Full path to the RNA-Seq count matrices provided in a 10x Genomics format and compressed as `.tar.gz`. |
+| `hto_matrix` | Full path to the hashing count matrices provided in a 10x Genomics format and compressed as `.tar.gz`. |
+| `bam`        | Full path to the alignment file (`.bam`).                                                              |
+| `vcf`        | Full path to common SNP genotypes vcf (`.vcf`).                                                        |
+| `n_samples`  | The number of multiplexed donors.                                                                      |
+| `barcodes`   | Full path to the list of cell barcodes (e.g., `barcodes.tsv` from Cell Ranger)                         |
 
 :::tip{collapse title="Samplesheet Input Requirements by Module"}
 
