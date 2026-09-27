@@ -191,8 +191,9 @@ def validateInputParameters() {
     if ( params.mode == 'donor_match' ){
         checkParams('demultiplexing_result', 'DONOR_MATCH', 'donor_match', true)
         if ( params.find_variants ){
-            ['cell_genotype', 'vireo_filtered_variants'].each { p ->
-                checkParams(p, 'FIND_VARIANTS', 'donor_match', true)
+            checkParams('cell_genotype', 'FIND_VARIANTS', 'donor_match', true)
+            if ( params.vireo_filtered_variants ){
+                checkParams('vireo_filtered_variants', 'FIND_VARIANTS', 'donor_match', true)
             }
         }
     }

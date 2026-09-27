@@ -90,7 +90,8 @@ nextflow run nf-core/hadge \
 ### The donor match mode
 
 This mode utilizes the donor matching component from the rescue mode, but requires manual input for several stages.
-To run all steps of donor matching, you must provide the demultiplexing results, filtered variants, and both cell and donor genotypes.
+To run all steps of donor matching, you must provide the demultiplexing results and both cell and donor genotypes.
+The vireo filtered variants (`--vireo_filtered_variants`) are optional and only needed to additionally subset the donor genotypes by the variants used by vireo.
 For detailed specifications on these input parameters, refer to the [parameter documentation](https://nf-co.re/hadge/parameters).
 
 ```csv title="samplesheet.csv"

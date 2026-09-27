@@ -173,7 +173,8 @@ workflow HADGE {
 
         if ( params.find_variants ){
             ch_find_variants = GENETIC_DEMULTIPLEXING.out.gt_cells
-                .join(GENETIC_DEMULTIPLEXING.out.vireo_filtered_variants)
+                .join(GENETIC_DEMULTIPLEXING.out.vireo_filtered_variants, remainder: true)
+                .map { meta, cell_genotype, vireo_variants -> [meta, cell_genotype, vireo_variants ?: []] }
         }
 
         ch_versions = ch_versions.mix(GENETIC_DEMULTIPLEXING.out.versions)
@@ -185,7 +186,7 @@ workflow HADGE {
 
         if ( params.find_variants ){
             ch_find_variants = ch_preprocessed.map{ meta, _rna, _hto, _bam, _barcodes, _vcf ->
-                [meta, params.cell_genotype, params.vireo_filtered_variants]
+                [meta, params.cell_genotype, params.vireo_filtered_variants ?: []]
             }
         }
     }

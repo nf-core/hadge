@@ -144,7 +144,7 @@
                 "vireo_filtered_variants": {
                     "type": ["string", "null"],
                     "format": "file-path",
-                    "description": "Path to Vireo filtered variants file (necessary only for donor_match mode).",
+                    "description": "Path to Vireo filtered variants file (optional, only used in donor_match mode).",
                     "fa_icon": "fas fa-file-code"
                 },
                 "cell_genotype": {
