@@ -1,0 +1,202 @@
+name: donor_match
+description: Match the donors of genetic demultiplexing methods to the hashtags of hashing-based
+  demultiplexing methods and compare the assignments of the methods.
+keywords:
+  - demultiplexing
+  - donor matching
+  - genetic deconvolution
+  - hashing-based deconvolution
+tools:
+  - tidyverse:
+      description: Collection of R packages for data science, sharing a common design philosophy.
+      homepage: https://www.tidyverse.org
+      documentation: https://tidyverse.tidyverse.org
+      tool_dev_url: https://github.com/tidyverse/tidyverse
+      doi: 10.21105/joss.01686
+      licence:
+        - MIT
+      identifier: ""
+  - data.table:
+      description: Extension of R's data.frame for fast aggregation of large data.
+      homepage: https://rdatatable.gitlab.io/data.table
+      documentation: https://rdatatable.gitlab.io/data.table/
+      tool_dev_url: https://github.com/Rdatatable/data.table
+      licence:
+        - MPL-2.0
+      identifier: ""
+  - pheatmap:
+      description: R package for drawing pretty heatmaps.
+      homepage: https://cran.r-project.org/package=pheatmap
+      documentation: https://cran.r-project.org/package=pheatmap
+      tool_dev_url: https://github.com/raivokolde/pheatmap
+      licence:
+        - GPL-2.0-only
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - demultiplexing_result:
+        type: file
+        description: CSV file with the combined assignment of each barcode (`Barcode` column)
+          by the genetic and hashing demultiplexing methods (output of `GENE_SUMMARY` and
+          `HASH_SUMMARY`).
+        ontologies:
+          - edam: http://edamontology.org/format_3752
+  - match_donor_method1:
+      type: string
+      description: Name of the first demultiplexing method to be compared. If it is `null`/empty,
+        all combinations of genetic and hashing methods are compared.
+  - match_donor_method2:
+      type: string
+      description: Name of the second demultiplexing method to be compared. If it is `null`/empty,
+        all combinations of genetic and hashing methods are compared.
+output:
+  best_donor_match:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_best_donor_match.csv":
+          type: file
+          description: Donor matching (genetic donor to hashtag) of the best scoring combination
+            of a genetic and a hashing method. Only created if both a genetic and a hashing
+            method were compared.
+          pattern: "*_best_donor_match.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  best_all_assignment_after_match:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_best_all_assignment_after_match.csv":
+          type: file
+          description: Assignments of all cells after donor matching for the best scoring
+            method combination. Only created if both a genetic and a hashing method were compared.
+          pattern: "*_best_all_assignment_after_match.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  best_intersect_assignment_after_match:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_best_intersect_assignment_after_match.csv":
+          type: file
+          description: Assignments of the cells that both methods of the best scoring combination
+            agree on being singlets, after donor matching. Only created if both a genetic
+            and a hashing method were compared.
+          pattern: "*_best_intersect_assignment_after_match.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  score_record:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_score_record.csv":
+          type: file
+          description: Matching score of every compared method combination. Only created if
+            both a genetic and a hashing method were compared.
+          pattern: "*_score_record.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  assignment_after_match:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*/*_vs_*all_assignment_after_match.csv":
+          type: file
+          description: Assignments of all cells after donor matching for each compared method
+            pair.
+          pattern: "*/*_vs_*all_assignment_after_match.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  assignment_intersect_match:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*/*_vs_*intersect_assignment_after_match.csv":
+          type: file
+          description: Assignments of the cells that both methods of a pair agree on being
+            singlets, after donor matching, for each compared method pair.
+          pattern: "*/*_vs_*intersect_assignment_after_match.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  correlation:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*/*_vs_*correlation_res.csv":
+          type: file
+          description: Correlation between the donors of both methods for each compared method
+            pair.
+          pattern: "*/*_vs_*correlation_res.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  donor_match:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*/*_vs_*donor_match.csv":
+          type: file
+          description: Donor matching between the two methods for each compared method pair.
+          pattern: "*/*_vs_*donor_match.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  concordance_heatmap:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*/*_vs_*concordance_heatmap.png":
+          type: file
+          description: Heatmap of the concordance between the two methods for each compared
+            method pair.
+          pattern: "*/*_vs_*concordance_heatmap.png"
+          ontologies:
+            - edam: http://edamontology.org/format_3603
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+topics:
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+authors:
+  - "@LuisHeinzlmeier"
+maintainers:
+  - "@LuisHeinzlmeier"
