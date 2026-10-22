@@ -1,0 +1,79 @@
+name: subset_gt_donors
+description: Subset a genotype VCF of donors to the given variants and rename its samples
+  to the matched donors.
+keywords:
+  - demultiplexing
+  - genetic deconvolution
+  - vcf
+  - subset
+tools:
+  - bcftools:
+      description: Utilities for variant calling and manipulating VCFs and BCFs.
+      homepage: https://samtools.github.io/bcftools/
+      documentation: https://samtools.github.io/bcftools/bcftools.html
+      tool_dev_url: https://github.com/samtools/bcftools
+      doi: 10.1093/gigascience/giab008
+      licence:
+        - MIT
+        - GPL
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - subset_variants:
+        type: file
+        description: File with the variants (regions) to keep, as used by `bcftools filter
+          -R`.
+        ontologies:
+          - edam: http://edamontology.org/format_3475
+    - output_basename:
+        type: string
+        description: Basename of the output file, which is appended to the prefix.
+    - gt_donors_vcf:
+        type: file
+        description: VCF file with the genotypes of the donors. It is sorted before subsetting.
+        ontologies:
+          - edam: http://edamontology.org/format_3016
+    - donor_match:
+        type: file
+        description: File with the new sample names (one per line), used to rename the samples
+          of the VCF (see `bcftools reheader --samples`).
+        ontologies:
+          - edam: http://edamontology.org/format_2330
+output:
+  donor_subset_vcf:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_${output_basename}.vcf.gz":
+          type: file
+          description: Compressed VCF file with the subsetted variants and the samples renamed
+            to the matched donors.
+          pattern: "*.vcf.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_3016
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+topics:
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+authors:
+  - "@LuisHeinzlmeier"
+maintainers:
+  - "@LuisHeinzlmeier"
