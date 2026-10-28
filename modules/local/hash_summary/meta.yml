@@ -1,0 +1,194 @@
+name: hash_summary
+description: Summarise the results of the hashing-based demultiplexing methods (HTODemux,
+  MULTIseqDemux, BFF, demuxEM, GMM-Demux, hashedDrops, HashSolo) into a unified assignment
+  and classification table.
+keywords:
+  - demultiplexing
+  - hashing-based deconvolution
+  - summary
+  - single-cell
+tools:
+  - scanpy:
+      description: Scalable toolkit for analyzing single-cell gene expression data built jointly
+        with anndata.
+      homepage: https://scanpy.readthedocs.io
+      documentation: https://scanpy.readthedocs.io/en/stable/
+      tool_dev_url: https://github.com/scverse/scanpy
+      doi: 10.1186/s13059-017-1382-0
+      licence:
+        - BSD-3-Clause
+      identifier: ""
+  - pandas:
+      description: Python library providing data structures and data analysis tools.
+      homepage: https://pandas.pydata.org
+      documentation: https://pandas.pydata.org/docs/
+      tool_dev_url: https://github.com/pandas-dev/pandas
+      licence:
+        - BSD-3-Clause
+      identifier: ""
+  - numpy:
+      description: Fundamental package for scientific computing with Python.
+      homepage: https://numpy.org
+      documentation: https://numpy.org/doc/stable/
+      tool_dev_url: https://github.com/numpy/numpy
+      doi: 10.1038/s41586-020-2649-2
+      licence:
+        - BSD-3-Clause
+      identifier: ""
+  - pegasusio:
+      description: Python package for reading, writing and manipulating single-cell and single-nucleus
+        genomics data.
+      homepage: https://pegasusio.readthedocs.io
+      documentation: https://pegasusio.readthedocs.io/en/latest/
+      tool_dev_url: https://github.com/lilab-bcb/pegasusio
+      doi: 10.1038/s41592-020-0905-x
+      licence:
+        - BSD-3-Clause
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - hto_matrix:
+        type: directory
+        description: Directory containing the HTO count matrix in 10X format.
+        ontologies:
+          - edam: http://edamontology.org/data_3917
+    - htodemux_assignments:
+        type: file
+        description: Assignment results of HTODemux. Pass an empty list if the method was
+          not run.
+        ontologies:
+          - edam: http://edamontology.org/format_3752
+    - htodemux_classification:
+        type: file
+        description: Classification results of HTODemux. Pass an empty list if the method
+          was not run.
+        ontologies:
+          - edam: http://edamontology.org/format_3752
+    - multiseq:
+        type: file
+        description: Assignment results of MULTIseqDemux. Pass an empty list if the method
+          was not run.
+        ontologies:
+          - edam: http://edamontology.org/format_3752
+    - bff:
+        type: file
+        description: Assignment results of BFF. Pass an empty list if the method was not run.
+        ontologies:
+          - edam: http://edamontology.org/format_3752
+    - demuxem:
+        type: file
+        description: Result of demuxEM. Pass an empty list if the method was not run.
+        ontologies: []
+    - gmmdemux_results:
+        type: file
+        description: Classification results of GMM-Demux. Pass an empty list if the method
+          was not run.
+        ontologies:
+          - edam: http://edamontology.org/format_3752
+    - gmmdemux_config:
+        type: file
+        description: Configuration file of GMM-Demux mapping the cluster to the hashtags.
+          Pass an empty list if the method was not run.
+        ontologies:
+          - edam: http://edamontology.org/format_3752
+    - hasheddrops_results:
+        type: file
+        description: Assignment results of hashedDrops. Pass an empty list if the method was
+          not run.
+        ontologies:
+          - edam: http://edamontology.org/format_3752
+    - hasheddrops_id_to_hash:
+        type: file
+        description: Table mapping the hashedDrops ids to the hashtag names. Pass an empty
+          list if the method was not run.
+        ontologies:
+          - edam: http://edamontology.org/format_3752
+    - hashsolo:
+        type: file
+        description: Assignment results of HashSolo. Pass an empty list if the method was
+          not run.
+        ontologies:
+          - edam: http://edamontology.org/format_3752
+  - bff_methods:
+      type: string
+      description: "Which BFF call methods to summarise: `RAW`, `CLUSTER` or `COMBINED`."
+output:
+  assignment:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_hashing_summary_assignment.csv":
+          type: file
+          description: Hashtag assignment of each barcode by each hashing-based demultiplexing
+            method.
+          pattern: "*_hashing_summary_assignment.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  classification:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_hashing_summary_classification.csv":
+          type: file
+          description: Singlet/doublet/negative classification of each barcode by each hashing-based
+            demultiplexing method.
+          pattern: "*_hashing_summary_classification.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  overview_assignment:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_hashing_overview_assignment.csv":
+          type: file
+          description: Overview of the number of cells assigned to each hashtag by each hashing-based
+            demultiplexing method.
+          pattern: "*_hashing_overview_assignment.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  overview_classification:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_hashing_overview_classification.csv":
+          type: file
+          description: Overview of the number of singlets, doublets and negatives called by
+            each hashing-based demultiplexing method.
+          pattern: "*_hashing_overview_classification.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+topics:
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+authors:
+  - "@LuisHeinzlmeier"
+maintainers:
+  - "@LuisHeinzlmeier"
