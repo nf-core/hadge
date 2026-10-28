@@ -1,0 +1,143 @@
+name: htodemux_visualization
+description: Visualise the results of HTODemux (ridge plot, feature scatter, violin plot,
+  tSNE and heatmap) from a Seurat object.
+keywords:
+  - demultiplexing
+  - hashing-based deconvolution
+  - visualization
+  - single-cell
+tools:
+  - seurat:
+      description: R toolkit for quality control, analysis and exploration of single-cell
+        RNA-seq data, including multimodal data.
+      homepage: https://satijalab.org/seurat/
+      documentation: https://satijalab.org/seurat/reference/
+      tool_dev_url: https://github.com/satijalab/seurat
+      doi: 10.1016/j.cell.2021.04.048
+      licence:
+        - MIT
+      identifier: ""
+  - ggplot2:
+      description: R system for declaratively creating graphics based on The Grammar of Graphics.
+      homepage: https://ggplot2.tidyverse.org
+      documentation: https://ggplot2.tidyverse.org/reference/
+      tool_dev_url: https://github.com/tidyverse/ggplot2
+      licence:
+        - MIT
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - seurat_object:
+        type: file
+        description: RDS file containing the Seurat object on which HTODemux was run.
+        ontologies: []
+    - assay:
+        type: string
+        description: Name of the hashtag assay in the Seurat object, usually `HTO`.
+output:
+  ridge_plot:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_ridge_htodemux.jpeg":
+          type: file
+          description: Ridge plot of the HTO expression per hashtag. Only created if `task.ext.ridgePlot`
+            is true.
+          pattern: "*_ridge_htodemux.jpeg"
+          ontologies:
+            - edam: http://edamontology.org/format_3579
+  feature_scatter:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_featureScatter_htodemux.jpeg":
+          type: file
+          description: Scatter plot of two features. Only created if `task.ext.featureScatter`
+            is true.
+          pattern: "*_featureScatter_htodemux.jpeg"
+          ontologies:
+            - edam: http://edamontology.org/format_3579
+  violin_plot:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_violinPlot_htodemux.jpeg":
+          type: file
+          description: Violin plot of a feature (e.g. `nCount_RNA`) per HTODemux classification.
+            Only created if `task.ext.vlnPlot` is true.
+          pattern: "*_violinPlot_htodemux.jpeg"
+          ontologies:
+            - edam: http://edamontology.org/format_3579
+  tsne_plot:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_tSNE_htodemux.jpeg":
+          type: file
+          description: tSNE embedding of the HTO data. Only created if `task.ext.tSNE` is
+            true.
+          pattern: "*_tSNE_htodemux.jpeg"
+          ontologies:
+            - edam: http://edamontology.org/format_3579
+  heatmap_plot:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_heatMap_htodemux.jpeg":
+          type: file
+          description: Heatmap of the HTO signal across cells. Only created if `task.ext.heatMap`
+            is true.
+          pattern: "*_heatMap_htodemux.jpeg"
+          ontologies:
+            - edam: http://edamontology.org/format_3579
+  params:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_visual_params_htodemux.csv":
+          type: file
+          description: The parameters used for the visualisation.
+          pattern: "*_visual_params_htodemux.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+topics:
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+authors:
+  - "@LuisHeinzlmeier"
+maintainers:
+  - "@LuisHeinzlmeier"

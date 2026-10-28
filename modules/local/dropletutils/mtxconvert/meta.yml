@@ -1,0 +1,79 @@
+name: dropletutils_mtxconvert
+description: Convert a 10X-format count matrix into an HDF5 file and optionally into a CSV
+  file using DropletUtils.
+keywords:
+  - single-cell
+  - matrix
+  - conversion
+  - 10x
+tools:
+  - dropletutils:
+      description: Bioconductor package with utilities for handling droplet-based single-cell
+        RNA-seq data.
+      homepage: https://bioconductor.org/packages/DropletUtils/
+      documentation: https://bioconductor.org/packages/release/bioc/html/DropletUtils.html
+      tool_dev_url: https://github.com/MarioniLab/DropletUtils
+      doi: 10.1186/s13059-019-1662-y
+      licence:
+        - GPL-3.0-only
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - input_mtx_dir:
+        type: directory
+        description: Directory containing the count matrix in 10X format.
+        ontologies:
+          - edam: http://edamontology.org/data_3917
+  - write_csv:
+      type: boolean
+      description: Whether a dense CSV file should be written in addition to the HDF5 file.
+output:
+  csv:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*.csv":
+          type: file
+          description: Dense count matrix as CSV file. Only created if `write_csv` is true.
+          pattern: "*.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  h5:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*.h5":
+          type: file
+          description: Count matrix as 10X HDF5 file.
+          pattern: "*.h5"
+          ontologies:
+            - edam: http://edamontology.org/format_3590
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+topics:
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+authors:
+  - "@LuisHeinzlmeier"
+maintainers:
+  - "@LuisHeinzlmeier"
