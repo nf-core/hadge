@@ -1,0 +1,193 @@
+name: find_variants
+description: Find representative and donor-specific variants from the cell genotypes of a
+  genetic demultiplexing method, based on the donor-matched assignments.
+keywords:
+  - demultiplexing
+  - genetic deconvolution
+  - variants
+  - donor matching
+tools:
+  - tidyverse:
+      description: Collection of R packages for data science, sharing a common design philosophy.
+      homepage: https://www.tidyverse.org
+      documentation: https://tidyverse.tidyverse.org
+      tool_dev_url: https://github.com/tidyverse/tidyverse
+      doi: 10.21105/joss.01686
+      licence:
+        - MIT
+      identifier: ""
+  - data.table:
+      description: Extension of R's data.frame for fast aggregation of large data.
+      homepage: https://rdatatable.gitlab.io/data.table
+      documentation: https://rdatatable.gitlab.io/data.table/
+      tool_dev_url: https://github.com/Rdatatable/data.table
+      licence:
+        - MPL-2.0
+      identifier: ""
+  - ComplexUpset:
+      description: R package for creating UpSet plots with ggplot2.
+      homepage: https://krassowski.github.io/complex-upset/
+      documentation: https://krassowski.github.io/complex-upset/
+      tool_dev_url: https://github.com/krassowski/complex-upset
+      doi: 10.5281/zenodo.3700590
+      licence:
+        - MIT
+      identifier: ""
+  - vcfR:
+      description: R package to read, manipulate and visualize variant call format (VCF) data.
+      homepage: https://knausb.github.io/vcfR_documentation/
+      documentation: https://knausb.github.io/vcfR_documentation/
+      tool_dev_url: https://github.com/knausb/vcfR
+      doi: 10.1111/1755-0998.12549
+      licence:
+        - GPL-3.0-or-later
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - best_intersect_assignment_after_match:
+        type: file
+        description: CSV file with the assignments of the cells that both methods of the best
+          method combination agree on being singlets, after donor matching (output of `DONOR_MATCH`).
+        ontologies:
+          - edam: http://edamontology.org/format_3752
+    - cell_genotype:
+        type: file
+        description: VCF file with the genotype of each cell (e.g. `cellSNP.cells.vcf`). Pass
+          an empty list to skip the genotype analysis.
+        ontologies:
+          - edam: http://edamontology.org/format_3016
+    - variants_vireo:
+        type: file
+        description: Variants file of vireo. Pass an empty list to skip the vireo variants
+          analysis.
+        ontologies:
+          - edam: http://edamontology.org/format_3475
+    - demultiplexing_result:
+        type: file
+        description: CSV file with the combined assignment of each barcode. It is only used
+          to obtain all barcodes.
+        ontologies:
+          - edam: http://edamontology.org/format_3752
+  - variant_count:
+      type: integer
+      description: Minimum number of cells a variant has to be found in to be considered informative.
+  - variant_pct:
+      type: float
+      description: Minimum fraction of cells in which a variant must be found in one genotype
+        state to be considered informative (between 0.5 and 1).
+output:
+  matched_gt:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*/*_matched_gt.csv":
+          type: file
+          description: Genotypes of the variants for the cells matched to a donor.
+          pattern: "*/*_matched_gt.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  unmatched_gt:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*/*_unmatched_gt.csv":
+          type: file
+          description: Genotypes of the variants for the cells not matched to a donor.
+          pattern: "*/*_unmatched_gt.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  informative_variants:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*/*_informative_variants.csv":
+          type: file
+          description: Variants that are informative for the donor assignment.
+          pattern: "*/*_informative_variants.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  all_representative_variants:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_all_representative_variants.csv":
+          type: file
+          description: All representative variants across the donors.
+          pattern: "*_all_representative_variants.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  donor_specific_variants_upset:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_donor_specific_variants_upset.png":
+          type: file
+          description: UpSet plot of the variants shared between the donors.
+          pattern: "*_donor_specific_variants_upset.png"
+          ontologies:
+            - edam: http://edamontology.org/format_3603
+  donor_specific_variants:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_donor_specific_variants.csv":
+          type: file
+          description: Representative variants that are specific to one donor.
+          pattern: "*_donor_specific_variants.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  vireo_variants:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_vireo_variants.csv":
+          type: file
+          description: Representative variants of the vireo variants file. Only created if
+            the vireo variants file is provided.
+          pattern: "*_vireo_variants.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+topics:
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+authors:
+  - "@LuisHeinzlmeier"
+maintainers:
+  - "@LuisHeinzlmeier"
