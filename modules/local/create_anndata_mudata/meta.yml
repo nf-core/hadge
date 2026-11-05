@@ -1,0 +1,149 @@
+name: create_anndata_mudata
+description: Create AnnData objects and a MuData object from the RNA and HTO matrices and
+  annotate them with the genetic and hashing demultiplexing summaries.
+keywords:
+  - demultiplexing
+  - anndata
+  - mudata
+  - single-cell
+tools:
+  - scanpy:
+      description: Scalable toolkit for analyzing single-cell gene expression data built jointly
+        with anndata.
+      homepage: https://scanpy.readthedocs.io
+      documentation: https://scanpy.readthedocs.io/en/stable/
+      tool_dev_url: https://github.com/scverse/scanpy
+      doi: 10.1186/s13059-017-1382-0
+      licence:
+        - BSD-3-Clause
+      identifier: ""
+  - anndata:
+      description: Annotated data matrices for single-cell data, with support for HDF5-backed
+        storage.
+      homepage: https://anndata.readthedocs.io
+      documentation: https://anndata.readthedocs.io/en/stable/
+      tool_dev_url: https://github.com/scverse/anndata
+      doi: 10.21105/joss.04371
+      licence:
+        - BSD-3-Clause
+      identifier: ""
+  - mudata:
+      description: Multimodal annotated data, a container for multiple AnnData objects.
+      homepage: https://mudata.readthedocs.io
+      documentation: https://mudata.readthedocs.io/en/stable/
+      tool_dev_url: https://github.com/scverse/mudata
+      doi: 10.1186/s13059-021-02577-8
+      licence:
+        - BSD-3-Clause
+      identifier: ""
+  - pandas:
+      description: Python library providing data structures and data analysis tools.
+      homepage: https://pandas.pydata.org
+      documentation: https://pandas.pydata.org/docs/
+      tool_dev_url: https://github.com/pandas-dev/pandas
+      licence:
+        - BSD-3-Clause
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - rna_matrix:
+        type: directory
+        description: Directory containing the RNA count matrix in 10X format. Pass an empty
+          list to skip the RNA modality.
+        ontologies:
+          - edam: http://edamontology.org/data_3917
+    - hto_matrix:
+        type: directory
+        description: Directory containing the HTO count matrix in 10X format. Pass an empty
+          list to skip the hashing modality.
+        ontologies:
+          - edam: http://edamontology.org/data_3917
+    - genetic_summary_assignment:
+        type: file
+        description: CSV file with the assignment of each barcode by the genetic demultiplexing
+          methods (output of `GENE_SUMMARY`). Pass an empty list if not available.
+        ontologies:
+          - edam: http://edamontology.org/format_3752
+    - genetic_summary_classification:
+        type: file
+        description: CSV file with the singlet/doublet/negative classification of each barcode
+          by the genetic demultiplexing methods (output of `GENE_SUMMARY`). Pass an empty
+          list if not available.
+        ontologies:
+          - edam: http://edamontology.org/format_3752
+    - hashing_summary_assignment:
+        type: file
+        description: CSV file with the assignment of each barcode by the hashing-based demultiplexing
+          methods (output of `HASH_SUMMARY`). Pass an empty list if not available.
+        ontologies:
+          - edam: http://edamontology.org/format_3752
+    - hashing_summary_classification:
+        type: file
+        description: CSV file with the singlet/doublet/negative classification of each barcode
+          by the hashing-based demultiplexing methods (output of `HASH_SUMMARY`). Pass an
+          empty list if not available.
+        ontologies:
+          - edam: http://edamontology.org/format_3752
+output:
+  h5ad_genetic:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_genetic.h5ad":
+          type: file
+          description: AnnData object of the RNA matrix annotated with the genetic demultiplexing
+            results. Only created if the RNA matrix is provided.
+          pattern: "*_genetic.h5ad"
+          ontologies: []
+  h5ad_hashing:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_hashing.h5ad":
+          type: file
+          description: AnnData object of the HTO matrix annotated with the hashing demultiplexing
+            results. Only created if the HTO matrix is provided.
+          pattern: "*_hashing.h5ad"
+          ontologies: []
+  h5mu:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_genetic_and_hashing.h5mu":
+          type: file
+          description: MuData object combining the `rna` and `hto` AnnData objects. Only created
+            if both matrices are provided.
+          pattern: "*_genetic_and_hashing.h5mu"
+          ontologies: []
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+topics:
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+authors:
+  - "@LuisHeinzlmeier"
+maintainers:
+  - "@LuisHeinzlmeier"
