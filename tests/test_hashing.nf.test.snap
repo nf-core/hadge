@@ -3,9 +3,9 @@
         "content": [
             {
                 "BFF": {
+                    "cellhashR": "1.0.3",
                     "r-base": "4.3.3",
-                    "r-seurat": "4.3.0.1",
-                    "cellhashR": "1.0.3"
+                    "r-seurat": "4.3.0.1"
                 },
                 "CREATE_ANNDATA_MUDATA": {
                     "anndata": "0.12.7",
@@ -24,17 +24,17 @@
                     "r-tidyverse": "2.0.0"
                 },
                 "EXTRACT_HASHES": {
-                    "gzip": 1.14,
+                    "coreutils": 9.5,
                     "gawk": "5.3.1",
-                    "coreutils": 9.5
+                    "gzip": 1.14
                 },
                 "GMMDEMUX": {
                     "GMM-Demux": "0.2.2.3"
                 },
                 "HASHEDDROPS": {
+                    "dropletutils": "1.26.0",
                     "r-base": "4.4.3",
-                    "r-seurat": "5.3.0",
-                    "dropletutils": "1.26.0"
+                    "r-seurat": "5.3.0"
                 },
                 "HASHSOLO": {
                     "matplotlib": "3.10.5",
@@ -55,16 +55,16 @@
                 },
                 "HTODEMUX_VISUALIZATION": {
                     "r-base": "4.4.3",
-                    "r-seurat": "5.3.0",
-                    "r-ggplot2": "3.5.2"
+                    "r-ggplot2": "3.5.2",
+                    "r-seurat": "5.3.0"
                 },
                 "MTXCONVERT_HTO": {
-                    "r-base": "4.4.3",
-                    "bioconductor-dropletutils": "1.26.0"
+                    "bioconductor-dropletutils": "1.26.0",
+                    "r-base": "4.4.3"
                 },
                 "MTXCONVERT_RNA": {
-                    "r-base": "4.4.3",
-                    "bioconductor-dropletutils": "1.26.0"
+                    "bioconductor-dropletutils": "1.26.0",
+                    "r-base": "4.4.3"
                 },
                 "MULTISEQDEMUX": {
                     "r-base": "4.4.3",
