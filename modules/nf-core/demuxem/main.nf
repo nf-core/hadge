@@ -43,7 +43,7 @@ process DEMUXEM {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        echo \$(demuxEM --version  2>&1)
+        demuxEM: \$(demuxEM --version 2>&1)
     END_VERSIONS
     """
 
@@ -56,7 +56,7 @@ process DEMUXEM {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        echo \$(demuxEM --version  2>&1)
+        demuxEM: \$(demuxEM --version 2>&1)
     END_VERSIONS
     """
 }
