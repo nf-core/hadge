@@ -1,0 +1,81 @@
+name: preprocessing_for_htodemux_multiseq
+description: Create a Seurat object from the RNA and HTO matrices and normalise the HTO data
+  as preprocessing for HTODemux and MULTIseqDemux.
+keywords:
+  - demultiplexing
+  - hashing-based deconvolution
+  - preprocessing
+  - single-cell
+tools:
+  - seurat:
+      description: R toolkit for quality control, analysis and exploration of single-cell
+        RNA-seq data, including multimodal data.
+      homepage: https://satijalab.org/seurat/
+      documentation: https://satijalab.org/seurat/reference/
+      tool_dev_url: https://github.com/satijalab/seurat
+      doi: 10.1016/j.cell.2021.04.048
+      licence:
+        - MIT
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - rna_matrix:
+        type: directory
+        description: Directory containing the RNA count matrix in 10X format.
+        ontologies:
+          - edam: http://edamontology.org/data_3917
+    - hto_matrix:
+        type: directory
+        description: Directory containing the HTO count matrix in 10X format.
+        ontologies:
+          - edam: http://edamontology.org/data_3917
+output:
+  seurat_object:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_preprocessed.rds":
+          type: file
+          description: RDS file containing the preprocessed Seurat object with the HTO assay
+            added and normalised.
+          pattern: "*_preprocessed.rds"
+          ontologies: []
+  params:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_params_preprocessing.csv":
+          type: file
+          description: The parameters used for the preprocessing.
+          pattern: "*_params_preprocessing.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+topics:
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+authors:
+  - "@LuisHeinzlmeier"
+maintainers:
+  - "@LuisHeinzlmeier"

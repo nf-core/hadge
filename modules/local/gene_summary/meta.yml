@@ -1,0 +1,146 @@
+name: gene_summary
+description: Summarise the results of the genetic demultiplexing methods (vireo, demuxlet,
+  freemuxlet, souporcell) into a unified assignment and classification table.
+keywords:
+  - demultiplexing
+  - genetic deconvolution
+  - summary
+  - single-cell
+tools:
+  - scanpy:
+      description: Scalable toolkit for analyzing single-cell gene expression data built jointly
+        with anndata.
+      homepage: https://scanpy.readthedocs.io
+      documentation: https://scanpy.readthedocs.io/en/stable/
+      tool_dev_url: https://github.com/scverse/scanpy
+      doi: 10.1186/s13059-017-1382-0
+      licence:
+        - BSD-3-Clause
+      identifier: ""
+  - pandas:
+      description: Python library providing data structures and data analysis tools.
+      homepage: https://pandas.pydata.org
+      documentation: https://pandas.pydata.org/docs/
+      tool_dev_url: https://github.com/pandas-dev/pandas
+      licence:
+        - BSD-3-Clause
+      identifier: ""
+  - numpy:
+      description: Fundamental package for scientific computing with Python.
+      homepage: https://numpy.org
+      documentation: https://numpy.org/doc/stable/
+      tool_dev_url: https://github.com/numpy/numpy
+      doi: 10.1038/s41586-020-2649-2
+      licence:
+        - BSD-3-Clause
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - barcodes:
+        type: file
+        description: File with the cell barcodes, one barcode per line.
+        ontologies:
+          - edam: http://edamontology.org/format_3475
+    - vireo:
+        type: file
+        description: Donor assignment table of vireo (`donor_ids.tsv`). Pass an empty list
+          if vireo was not run.
+        ontologies:
+          - edam: http://edamontology.org/format_3475
+    - demuxlet:
+        type: file
+        description: Result file of demuxlet (`.best`). Pass an empty list if demuxlet was
+          not run.
+        ontologies:
+          - edam: http://edamontology.org/format_3475
+    - freemuxlet:
+        type: file
+        description: Result file of freemuxlet (`.clust1.samples`). Pass an empty list if
+          freemuxlet was not run.
+        ontologies:
+          - edam: http://edamontology.org/format_3475
+    - souporcell:
+        type: file
+        description: Cluster assignment table of souporcell (`clusters.tsv`). Pass an empty
+          list if souporcell was not run.
+        ontologies:
+          - edam: http://edamontology.org/format_3475
+output:
+  assignment:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_genetic_summary_assignment.csv":
+          type: file
+          description: Donor assignment of each barcode by each genetic demultiplexing method.
+          pattern: "*_genetic_summary_assignment.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  classification:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_genetic_summary_classification.csv":
+          type: file
+          description: Singlet/doublet/negative classification of each barcode by each genetic
+            demultiplexing method.
+          pattern: "*_genetic_summary_classification.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  overview_assignment:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_genetic_overview_assignment.csv":
+          type: file
+          description: Overview of the number of cells assigned to each donor by each genetic
+            demultiplexing method.
+          pattern: "*_genetic_overview_assignment.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  overview_classification:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          ontologies: []
+      - "*_genetic_overview_classification.csv":
+          type: file
+          description: Overview of the number of singlets, doublets and negatives called by
+            each genetic demultiplexing method.
+          pattern: "*_genetic_overview_classification.csv"
+          ontologies:
+            - edam: http://edamontology.org/format_3752
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+topics:
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+authors:
+  - "@LuisHeinzlmeier"
+maintainers:
+  - "@LuisHeinzlmeier"
